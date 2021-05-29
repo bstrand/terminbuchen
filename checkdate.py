@@ -8,7 +8,6 @@ import json
 # url = "https://service.berlin.de/terminvereinbarung/termin/tag.php?termin=1&anliegen[]=327537&dienstleisterlist=122210,122217,122219,122227&herkunft=http%3A%2F%2Fservice.berlin.de%2Fdienstleistung%2F327537%2F"
 emailPropertiesFile = "./resources/email.properties"
 
-
 """
 """
 def pretty(arr):

@@ -21,6 +21,9 @@ class EmailSender:
     """
     def __init__(self, filename):
         config = self.getEmailConfig(filename)
+
+        self.mode = config.get("mode", "mode")
+
         self.password = config.get(self.credentials, self.passwordStr)
         self.smtp = config.get(self.credentials, self.smtpStr)
         self.port = config.get(self.credentials, self.portStr)
@@ -49,14 +52,18 @@ class EmailSender:
         body = "<html><head></head><body><h2>Termins available at {}:</h2><br><br> {}".format(datetime.now(), termins) + "</body></html>"
         msg.attach(MIMEText(body, "html"))
 
+        if(self.mode == "print_only"):
+            print("===EMAIL MSG===")
+            print(body)
+            print("===============")
+        else:
+            context = ssl.create_default_context()
 
-        context = ssl.create_default_context()
-
-        # Send message
-        smtp = smtplib.SMTP(self.smtp, self.port)
-        smtp.ehlo()
-        smtp.starttls(context = context)
-        smtp.login(self.sender, self.password)
-        smtp.sendmail(self.sender, self.recipient, msg.as_string())
-        smtp.quit()
-        print("-> Email sent")
+            # Send message
+            smtp = smtplib.SMTP(self.smtp, self.port)
+            smtp.ehlo()
+            smtp.starttls(context = context)
+            smtp.login(self.sender, self.password)
+            smtp.sendmail(self.sender, self.recipient, msg.as_string())
+            smtp.quit()
+            print("-> Email sent")
